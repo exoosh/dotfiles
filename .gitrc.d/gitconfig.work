@@ -3,3 +3,9 @@
 
 [commit]
 	# template = ~/.gitmessage
+	gpgsign = false
+
+[user]
+	email = oschneider@exocad.com
+	name = Oliver Schneider
+	signingkey = 059A24E2AC070F6F85EC4D7C96CE5F44D16CC915
