@@ -1,0 +1,44 @@
+# espanso match file
+
+# For a complete introduction, visit the official docs at: https://espanso.org/docs/
+
+# You can use this file to define the base matches (aka snippets)
+# that will be available in every application when using espanso.
+
+# Matches are substitution rules: when you type the "trigger" string
+# it gets replaced by the "replace" string.
+matches:
+  - trigger: ":today"
+    replace: "{{mydate}}"
+    vars:
+      - name: mydate
+        type: date
+        params:
+          format: "%Y-%m-%d"
+  - trigger: ":now"
+    replace: "{{mytime}}"
+    vars:
+      - name: mytime
+        type: date
+        params:
+          format: "%Y-%m-%d %H:%M:%S"
+  - trigger: ":shrug"
+    replace: "¯\\_(ツ)_/¯"
+  - trigger: ":cunning"
+    replace: "(¬‿¬)"
+  - trigger: ":eager"
+    replace: "ʘ‿ʘ"
+  - trigger: ":monocle"
+    replace: "ಠ_ರೃ"
+  - trigger: ":angry"
+    replace: "ಠ_ಠ"
+  - trigger: ":fight"
+    replace: "(ง ◉_◉)ง"
+  - trigger: ":mischief"
+    replace: "ಠᴗಠ"
+  - trigger: ":unamused"
+    replace: "( ͡ಠ ʖ̯ ͡ಠ)"
+  - trigger: ":mfg"
+    replace: "Mit freundlichem Gruß,\nOliver Schneider"
+  - trigger: ":br"
+    replace: "With best regards,\nOliver Schneider"

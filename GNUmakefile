@@ -123,6 +123,8 @@ FILES_TO_CONSIDER:=\
 	.bashrc.d/rust \
 	.config/flake8 \
 	.config/starship.toml \
+	.config/espanso/config/default.yml \
+	.config/espanso/match/base.yml \
 	.cargo/config \
 	$(wildcard .gitrc.d/gitconfig.*) \
 	.gnupg/gpg.conf \
