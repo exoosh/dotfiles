@@ -1,5 +1,5 @@
 [pack]
-	theads = 0
+	threads = 0
 	windowMemory = 512m
 	packSizeLimit = 512m
 	useSparse = true
