@@ -130,7 +130,7 @@ FILES_TO_CONSIDER:=\
 	$(wildcard .config/espanso/config/*.yml) \
 	$(wildcard .config/espanso/match/*.yml) \
 	$(wildcard .config/espanso/match/*.md) \
-	.cargo/config \
+	.cargo/config.toml \
 	$(wildcard .config/git/*) \
 	.gnupg/gpg.conf \
 	.gnupg/.no-pubkey-fetch \
@@ -144,25 +144,25 @@ FILES_TO_CONSIDER:=\
 $(warning Installing from DOTFILES=$(DOTFILES) into TGTDIR=$(TGTDIR) with HOME=$(HOME))
 
 clean-windows:
-	if [[ -f "$(HOME)/.gitrc.d/gitconfig.LOCAL" && ! -f "$(HOME)/.config/git/gitconfig.LOCAL" ]]; then
-		( set -x; mv -- "$(HOME)/.gitrc.d/gitconfig.LOCAL" "$(HOME)/.config/git"/ )
-	fi
-	if [[ -f "$(HOME)/.gitrc.d/gitconfig.USER" && ! -f "$(HOME)/.config/git/gitconfig.USER" ]]; then
-		( set -x; mv -- "$(HOME)/.gitrc.d/gitconfig.USER" "$(HOME)/.config/git"/ )
-	fi
-	if [[ -d "$(HOME)/.gitrc.d" ]]; then
-		( set -x; rm -rf -- "$(HOME)/.gitrc.d" )
-	fi
-	if [[ -f "$(HOME)/.gitconfig" ]]; then
-		( set -x; rm -f -- "$(HOME)/.gitconfig" )
-	fi
-	if [[ -f "$(HOME)/.cargo/config" && ! -f "$(HOME)/.cargo/config.toml" ]]; then
-		( set -x; mv -- "$(HOME)/.cargo/config" "$(HOME)/.cargo/config.toml" )
-	elif [[ -f "$(HOME)/.cargo/config" && -f "$(HOME)/.cargo/config.toml" ]]; then
-		( set -x; rm -f -- "$(HOME)/.cargo/config" )
-	fi
-	if [[ -f "$(HOME)/.bashrc" ]]; then
-		( set -x; rm -f -- "$(HOME)/.bashrc" )
+	if [[ -f "$(HOME)/.gitrc.d/gitconfig.LOCAL" && ! -f "$(HOME)/.config/git/gitconfig.LOCAL" ]]; then \
+		( set -x; mv -- "$(HOME)/.gitrc.d/gitconfig.LOCAL" "$(HOME)/.config/git"/ ); \
+	fi; \
+	if [[ -f "$(HOME)/.gitrc.d/gitconfig.USER" && ! -f "$(HOME)/.config/git/gitconfig.USER" ]]; then \
+		( set -x; mv -- "$(HOME)/.gitrc.d/gitconfig.USER" "$(HOME)/.config/git"/ ); \
+	fi; \
+	if [[ -d "$(HOME)/.gitrc.d" ]]; then \
+		( set -x; rm -rf -- "$(HOME)/.gitrc.d" ); \
+	fi; \
+	if [[ -f "$(HOME)/.gitconfig" ]]; then \
+		( set -x; rm -f -- "$(HOME)/.gitconfig" ); \
+	fi; \
+	if [[ -f "$(HOME)/.cargo/config" && ! -f "$(HOME)/.cargo/config.toml" ]]; then \
+		( set -x; mv -- "$(HOME)/.cargo/config" "$(HOME)/.cargo/config.toml" ); \
+	elif [[ -f "$(HOME)/.cargo/config" && -f "$(HOME)/.cargo/config.toml" ]]; then \
+		( set -x; rm -f -- "$(HOME)/.cargo/config" ); \
+	fi; \
+	if [[ -f "$(HOME)/.bashrc" ]]; then \
+		( set -x; rm -f -- "$(HOME)/.bashrc" ); \
 	fi
 
 install: clean-windows $(addprefix $(HOME)/,$(FILES_TO_CONSIDER)) configure.gitconfig
