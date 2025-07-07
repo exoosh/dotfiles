@@ -5,3 +5,4 @@ includes:
 extra_excludes:
   - "../match/_dokuwiki.yml"
   - "../match/_markdown.yml"
+  - "../match/_alignjira.yml"
