@@ -1,8 +1,8 @@
-filter_class: "TeXstudio"
+filter_title: "Align JIRA"
 enable: true
 includes:
-  - "../match/_latex.yml"
+  - "../match/_alignjira.yml"
 extra_excludes:
   - "../match/_dokuwiki.yml"
+  - "../match/_latex.yml"
   - "../match/_markdown.yml"
-  - "../match/_alignjira.yml"
