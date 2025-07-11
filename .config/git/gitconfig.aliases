@@ -14,15 +14,22 @@
 				esac; \
 				LANG=C LC_ALL=C git reflog --pretty=format:'%h %aI %gD %gs' \
 						| awk 'BEGIN { REFS[\"BOGUSREF\"] = 0; TGTBRNCHS[\"BOGUSBRNCH\"] = 0; } $9 !~ /^[a-f0-9]{40}$/ && $4 ~ /checkout:/ && $5 ~ /moving/ && (!($9 in TGTBRNCHS) && !($1 in REFS)) { print $1, $2, $3, $7, $9; REFS[$1] = 1; TGTBRNCHS[$9] = 1; }' \
-						| head -n $NUM \
 						| while read -r commit date reflogref from to; do \
-							if git show --oneline \"$commit\" -- > /dev/null 2>&1; then \
+							if LANG=C LC_ALL=C git show --oneline \"$commit\" -- > /dev/null 2>&1; then \
 								printf \"${cB}%s${cZ} ${cY}%10s${cZ} ${cW}%s${cZ} [${cG}%s${cZ}]\\n\" \"$commit\" \"$reflogref\" \"$to\" \"$date\"; \
 							fi; \
 						done \
+					| head -n $NUM \
 					| sk --ansi --no-multi --header 'Select recently used branch from reflog' -p 'RECENT BRANCH: ' --preview='git show -s --pretty=medium --color=always {1} --' --preview-window=right:40% \
 					| awk '{print $3}'; \
-			}; f() { local TGTBRNCH=$(__select_reflog_branch \"$@\"); test -n \"$TGTBRNCH\" || return 1; ( set -x; git switch \"$TGTBRNCH\" ); }; f"
+			}; \
+			f() \
+			{ \
+				local TGTBRNCH=$(__select_reflog_branch \"$@\"); \
+				test -n \"$TGTBRNCH\" || return 1; \
+				( set -x; git switch \"$TGTBRNCH\" ); \
+			}; \
+			f"
 	bk = back
 	br = branch --ignore-case --sort=-committerdate --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) -> %(contents:subject) %(color:green)(%(committerdate:relative)%(color:reset), %(color:blue)%(committerdate:format:%Y-%m-%d %H:%M:%S)%(color:green)) %(color:red)[%(authorname)]%(color:reset)'
 	branches = for-each-ref --ignore-case --count=30 --sort=-committerdate --format=\"%(color:yellow)%(committerdate:iso)  %(align:25)%(color:red)%(authorname)%(end)  %(color:white)%(color:bold)%(refname:short)\"
