@@ -169,6 +169,9 @@ clean-windows:
 	if [[ -f "$(HOME)/.bashrc.d/rust" ]]; then \
 		( set -x; rm -f -- "$(HOME)/.bashrc.d/rust" ); \
 	fi
+	if [[ -f "$(HOME)/.config/git/gitconfig.gnupg4win" ]]; then \
+		( set -x; rm -f -- "$(HOME)/.config/git/gitconfig.gnupg4win" ); \
+	fi
 
 install: clean-windows $(addprefix $(HOME)/,$(FILES_TO_CONSIDER)) configure.gitconfig
 
