@@ -38,8 +38,10 @@ function configure_gitconfig
 	case "$OSTYPE" in
 		msys | cygwin)
 			if type -P cygpath > /dev/null 2>&1; then
-				if [[ -f "$(cygpath -mF 42)/GnuPG/bin/gpg.exe" ]]; then
-					( set -x; git config -f "$GITLOCALCFG" --add 'include.path' '~/.config/git/gitconfig.gnupg4win' )
+				if [[ -f "$(cygpath -mF 38)/GnuPG/bin/gpg.exe" ]]; then
+					( set -x; git config -f "$GITLOCALCFG" --add 'include.path' '~/.config/git/gitconfig.gnupg4win-64bit' )
+				elif [[ -f "$(cygpath -mF 42)/GnuPG/bin/gpg.exe" ]]; then
+					( set -x; git config -f "$GITLOCALCFG" --add 'include.path' '~/.config/git/gitconfig.gnupg4win-32bit' )
 				fi
 			fi
 			;;
