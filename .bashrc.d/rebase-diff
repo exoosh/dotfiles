@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# vim: set autoindent smartindent ts=4 sw=4 sts=4 noet filetype=sh:
+
+if type -p diff 2> /dev/null; then
+	function rebase-diff
+	{
+		for fname in "$@"; do
+			diff --strip-trailing-cr -- <(git show "HEAD:$fname") "$fname"
+		done
+	}
+fi
