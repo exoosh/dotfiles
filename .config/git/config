@@ -111,5 +111,6 @@
 # External configuration
 [include]
 	path = ~/.config/git/gitconfig.aliases
+	path = ~/.config/git/gitconfig.work
 	path = ~/.config/git/gitconfig.LOCAL
 	path = ~/.config/git/gitconfig.USER
