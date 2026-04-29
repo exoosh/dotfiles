@@ -1,0 +1,172 @@
+---
+# Ansible playbook exercising treesitter highlighting
+- name: Configure web servers
+  hosts: webservers
+  become: true
+  become_user: root
+  become_method: sudo
+  gather_facts: true
+  connection: ssh
+  serial: 2
+  strategy: linear
+  environment:
+    HTTP_PROXY: "http://proxy.example.com:8080"
+  vars:
+    pkg_name: nginx
+    config_dir: /etc/nginx
+    enable_ssl: true
+  vars_files:
+    - vars/secrets.yml
+  collections:
+    - ansible.builtin
+  tags:
+    - webserver
+    - setup
+
+  pre_tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: true
+      when: ansible_os_family == "Debian"
+      changed_when: false
+      tags:
+        - always
+
+  roles:
+    - role: common
+      vars:
+        ntp_server: pool.ntp.org
+
+  tasks:
+    - name: "Install {{ pkg_name }}"
+      apt:
+        name: "{{ pkg_name }}"
+        state: present
+      register: install_result
+      until: install_result is succeeded
+      retries: 3
+      delay: 5
+      notify: restart nginx
+      when: ansible_os_family == "Debian"
+
+    - name: Install via yum
+      yum:
+        name: "{{ pkg_name }}"
+      when: ansible_os_family == "RedHat"
+      ignore_errors: true
+
+    - name: Template config
+      template:
+        src: "{{ pkg_name }}.conf.j2"
+        dest: "{{ config_dir }}/{{ pkg_name }}.conf"
+      notify:
+        - restart nginx
+        - validate config
+
+    - name: Loop over packages
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - curl
+        - wget
+        - jq
+      loop_control:
+        label: "{{ item }}"
+
+    - name: Legacy loop
+      debug:
+        msg: "User {{ item.name }} has uid {{ item.uid }}"
+      with_items:
+        - { name: alice, uid: 1000 }
+        - { name: bob, uid: 1001 }
+
+    - name: Use dict loop
+      debug:
+        msg: "{{ item.key }}={{ item.value }}"
+      with_dict:
+        key1: val1
+        key2: val2
+
+    - name: Error handling block
+      block:
+        - name: Try something risky
+          command: /usr/local/bin/risky-script
+          check_mode: false
+          no_log: true
+          async: 300
+          poll: 5
+      rescue:
+        - name: Handle failure
+          debug:
+            msg: "Task failed on {{ inventory_hostname }}"
+          delegate_to: localhost
+      always:
+        - name: Cleanup
+          file:
+            path: /tmp/scratch
+            state: absent
+
+    - name: Delegation and facts
+      setup:
+      delegate_to: "{{ item }}"
+      delegate_facts: true
+      with_items: "{{ groups['dbservers'] }}"
+      run_once: true
+      throttle: 1
+      timeout: 30
+
+    - name: Import and include
+      include_tasks: tasks/sub.yml
+      when: include_sub | default(false)
+
+    - import_tasks: tasks/common.yml
+    - include_role:
+        name: firewall
+    - import_role:
+        name: monitoring
+
+    - name: Module defaults example
+      module_defaults:
+        ansible.builtin.uri:
+          timeout: 30
+      block:
+        - name: Call API
+          uri:
+            url: "https://api.example.com/health"
+            method: GET
+
+    - name: Conditional with Jinja2 filters
+      debug:
+        msg: >
+          Server {{ inventory_hostname }} is running
+          {{ pkg_name }} version {{ pkg_version | default('unknown') }}
+      failed_when: pkg_version is not defined
+      any_errors_fatal: true
+      diff: false
+
+    {# This is a Jinja2 comment and should be highlighted differently #}
+    {% if extra_tasks is defined %}
+    - name: Conditional task from Jinja2 block
+      debug:
+        msg: "Extra tasks enabled"
+    {% endif %}
+
+  post_tasks:
+    - name: Final health check
+      uri:
+        url: "http://localhost:80/health"
+        status_code: 200
+      ignore_unreachable: true
+      max_fail_percentage: 25
+
+  handlers:
+    - name: restart nginx
+      service:
+        name: "{{ pkg_name }}"
+        state: restarted
+      listen: restart webserver
+
+    - name: validate config
+      command: nginx -t
+      changed_when: false

@@ -2,6 +2,8 @@
 
 This is a vim syntax plugin for Ansible 2.x, it supports YAML playbooks, Jinja2 templates, and Ansible's `hosts` files.
 
+In Neovim, this plugin provides tree-sitter based highlighting with Jinja2 template expression support and semantic Ansible keyword highlighting — see the [neovim section](#neovim) for setup instructions.
+
 - YAML playbooks are detected if:
   - they are in the `group_vars` or `host_vars` folder
   - they are in the `tasks`, `roles`, or `handlers` folder and have either a *.yml* or *.yaml* suffix
@@ -34,6 +36,8 @@ Bright (and selective highlight)     |  Dim
 
 ##### installation
 
+Neovim 0.12+: `vim.pack.add({ 'pearofducks/ansible-vim' })`
+
 Use your favorite plugin manager, or try [vim-plug](https://github.com/junegunn/vim-plug) if you're looking for a really nice one!
 
 **vim-plug:** `Plug 'pearofducks/ansible-vim'`
@@ -54,6 +58,11 @@ Use your favorite plugin manager, or try [vim-plug](https://github.com/junegunn/
 **Fedora:** The [vim-ansible](https://src.fedoraproject.org/rpms/vim-ansible) package is available in the default repository.
 
 **RHEL/CentOS:** The [vim-ansible](https://src.fedoraproject.org/rpms/vim-ansible) package is available in the [EPEL](https://fedoraproject.org/wiki/EPEL) repository.
+
+Or using **vim packages**:
+```
+git clone https://github.com/pearofducks/ansible-vim.git "${HOME}/.vim/pack/plugins/start/ansible-vim"
+```
 
 ## options
 
@@ -135,6 +144,15 @@ Accepts any syntax group-name from `:help E669` - e.g. _Comment_, _Constant_, _I
 
 This option changes the highlight of all `with_.+`, `loop`, `loop_control`, `until`, `retries` and `delay` keywords.
 
+##### g:ansible_builtin_modules_highlight
+`let g:ansible_builtin_modules_highlight = 'Constant'`
+
+Accepts any syntax group-name from `:help E669` - e.g. _Comment_, _Constant_, _Identifier_
+
+*Note:* Defaults to 'Statement' when not set.
+
+This option changes the highlight of all ansible builtin modules keywords - e.g. `ansible.builtin.user`.
+
 ##### g:ansible_template_syntaxes
 `let g:ansible_template_syntaxes = { '*.rb.j2': 'ruby' }`
 
@@ -151,11 +169,84 @@ Accepts a regex string that is used to match the filename to determine if the fi
 
 Can be used to avoid clashes with other files that are named the same - e.g. main.yaml used in github workflows by removing `main` from the regex
 
+## Neovim
+
+Tree-sitter highlighting is opt-in. To enable it, install the required parsers and call `setup()` in your Neovim config:
+
+> [!WARNING]
+> `setup()` extends the yaml highlights query at runtime to add Ansible keyword patterns. This affects all YAML buffers in the session after `setup()` is called.
+
+```lua
+require('ansible').setup()
+```
+
+Without `setup()`, the plugin uses legacy Vim syntax highlighting (same as Vim).
+
+Tree-sitter provides:
+
+- **Jinja2 template highlighting** — `{{ }}`, `{% %}`, and `{# #}` are parsed and highlighted as template syntax, with expression contents highlighted by the `jinja_inline` parser
+- **YAML highlighting** — all YAML content between Jinja2 expressions gets full YAML syntax highlighting
+- **Ansible keyword highlighting** — Ansible-specific YAML keys are highlighted with semantic groups
+
+##### required parsers
+
+Install with nvim-treesitter: `:TSInstall jinja yaml`
+
+The following parsers are needed:
+- `jinja` — top-level parser, tokenizes Jinja2 template boundaries
+- `jinja_inline` — highlights inside Jinja2 expressions (installed automatically with `jinja`)
+- `yaml` — highlights the YAML content between template expressions
+
+If the parsers are not installed, `setup()` will emit a warning and fall back to legacy syntax.
+
+
+##### customizing highlights
+
+Override any group in your Neovim config:
+
+```lua
+-- Example: make loop keywords orange and italic
+vim.api.nvim_set_hl(0, '@keyword.ansible.loop', { fg = '#ff9e64', italic = true })
+
+-- Example: make control keywords bold
+vim.api.nvim_set_hl(0, '@keyword.ansible.control', { bold = true })
+
+-- Example: dim directives like the legacy 'd' flag did
+vim.api.nvim_set_hl(0, '@keyword.ansible.directive', { link = 'Comment' })
+```
+
+##### highlight groups
+
+Ansible keywords are highlighted using custom tree-sitter capture names. Each maps to a default Vim highlight group but can be overridden in your config.
+
+| Capture name | Default link | Keywords |
+|---|---|---|
+| `@keyword.ansible.control` | `Conditional` | `name`, `hosts`, `tasks`, `handlers`, `pre_tasks`, `post_tasks`, `block`, `rescue`, `always`, `when`, `changed_when`, `failed_when`, `notify`, `listen`, `register`, `action`, `local_action`, `include`, `include_role`, `include_tasks`, `include_vars`, `import_role`, `import_playbook`, `import_tasks`, `roles`, `collections` |
+| `@keyword.ansible.loop` | `Special` | `loop`, `loop_control`, `until`, `retries`, `delay`, `with_*` (e.g. `with_items`, `with_dict`, `with_fileglob`) |
+| `@keyword.ansible.directive` | `Identifier` | `become`, `become_exe`, `become_flags`, `become_method`, `become_user`, `become_pass`, `check_mode`, `diff`, `no_log`, `any_errors_fatal`, `ignore_errors`, `ignore_unreachable`, `max_fail_percentage`, `environment`, `vars`, `vars_files`, `vars_prompt`, `connection`, `port`, `remote_user`, `async`, `poll`, `throttle`, `timeout`, `order`, `run_once`, `serial`, `strategy`, `delegate_facts`, `delegate_to`, `tags`, `args`, `force_handlers`, `debugger`, `always_run`, `prompt_l10n`, `gather_facts`, `gather_subset`, `gather_timeout`, `fact_path`, `module_defaults` |
+| `@keyword.ansible.debug` | `Debug` | `debug` |
+
 ## goto role under cursor (similar to gf)
 
 This behavior is not supported out of the box, but you can use [this snippet](https://gist.github.com/mtyurt/3529a999af675a0aff00eb14ab1fdde3) in your vimrc.
 
 You'll then be able to go to a role's definition with `<leader>gr`.
+
+## completion for the ansible builtin modules
+
+*NOTE: This feature needs vim version >= 9.*
+
+After the pattern `ansible.builtin.` completion for the ansible builtin modules works with CTRL-X CTRL-O.
+
+The completion popup behavior is controlled by your `completeopt` setting. For example, to show the menu without auto-selecting an entry:
+
+```vim
+set completeopt=menu,menuone,noselect
+```
+
+See `:h completeopt`, `:h omnifunc` and `:h ins-completion`.
+
+<img width="417" height="121" alt="vim-ansible-comletion_2" src="https://github.com/user-attachments/assets/db72891e-1d97-47a3-9337-35db9967e9d1" />
 
 ## bugs, suggestions/requests, & contributions
 

@@ -33,7 +33,11 @@ endfunction
 
 augroup ansible_vim_ftyaml_ansible
     au!
-    au BufNewFile,BufRead * if s:isAnsible() | set ft=yaml.ansible | en
+    if has('nvim')
+      au BufNewFile,BufRead * if s:isAnsible() | set ft=ansible | en
+    else
+      au BufNewFile,BufRead * if s:isAnsible() | set ft=yaml.ansible | en
+    endif
 augroup END
 augroup ansible_vim_ftjinja2
     au!
