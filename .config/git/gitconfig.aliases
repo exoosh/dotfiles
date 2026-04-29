@@ -34,8 +34,8 @@
 	pf = !git pushf
 	pushf = push --force-with-lease
 	rb = restore -SW
-	reattach = !$SHELL ~/.config/git/git-reattach-shellfunc.sh "$@"
-	reattachsm = !git submodule foreach --recursive "$SHELL ~/.config/git/git-reattach-shellfunc.sh" "$@"
+	reattach = !sh ~/.config/git/git-reattach-shellfunc.sh "$@"
+	reattachsm = !git submodule foreach --recursive "sh ~/.config/git/git-reattach-shellfunc.sh" "$@"
 	recommit = !env TZ=UTC GIT_COMMITTER_DATE=\"$(date --utc -Iseconds)\" git commit --amend --no-edit --date \"$(date --utc -Iseconds)\"
 	rename = mv
 	rv = remote -v

@@ -49,7 +49,7 @@ function git_reattach_impl
 				*)
 					printf -- "${cY}WARNING:${cZ} cannot reasonably decide which branch to switch to. Candidates:\n" "$bname"
 					for b in "${CANDIDATE_BRANCHES[@]}"; do
-						printf -- "\t* ${cW}%s${cZ}\n" "$b"
+						printf -- "    * ${cW}%s${cZ}\n" "$b"
 					done
 					break
 					;;
