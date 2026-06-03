@@ -3,7 +3,7 @@
 	amend = commit --amend
 	aliases = config --get-regexp alias\\.
 	au = !git diff --name-only --ignore-submodules --diff-filter=d -z | xargs -0 -r git add --verbose
-	back = !/usr/bin/env bash "$HOME/.config/git/git-back-shellfunc.sh" "$@"
+	back = !bash "$HOME/.config/git/git-back-shellfunc.sh" "$@"
 	bk = back
 	br = branch --ignore-case --sort=-committerdate --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) -> %(contents:subject) %(color:green)(%(committerdate:relative)%(color:reset), %(color:blue)%(committerdate:format:%Y-%m-%d %H:%M:%S)%(color:green)) %(color:red)[%(authorname)]%(color:reset)'
 	branches = for-each-ref --ignore-case --count=30 --sort=-committerdate --format=\"%(color:yellow)%(committerdate:iso)  %(align:25)%(color:red)%(authorname)%(end)  %(color:white)%(color:bold)%(refname:short)\"
@@ -34,8 +34,8 @@
 	pf = !git pushf
 	pushf = push --force-with-lease
 	rb = restore -SW
-	reattach = !sh ~/.config/git/git-reattach-shellfunc.sh "$@"
-	reattachsm = !git submodule foreach --recursive "sh ~/.config/git/git-reattach-shellfunc.sh" "$@"
+	reattach = !bash ~/.config/git/git-reattach-shellfunc.sh "$@"
+	reattachsm = !git submodule foreach --recursive "bash ~/.config/git/git-reattach-shellfunc.sh" "$@"
 	recommit = !env TZ=UTC GIT_COMMITTER_DATE=\"$(date --utc -Iseconds)\" git commit --amend --no-edit --date \"$(date --utc -Iseconds)\"
 	rename = mv
 	rv = remote -v

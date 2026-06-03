@@ -71,7 +71,10 @@ matches:
   - triggers: [ ":SZ" ]
     label: "Latin Capital Letter Sharp S \u1e9e (ß)"
     replace: "\u1e9e"
-  - triggers: [ ":emdash" ]
+  - triggers: [ ":endash" ]
+    label: "En Dash \u2013"
+    replace: "\u2013"
+  - triggers: [ ":emdash", ":---" ]
     label: "Em Dash \u2014"
     replace: "\u2014"
   - triggers: [ ":sqrt" ]

@@ -26,10 +26,10 @@ matches:
   - triggers: [ ":enquote" ]
     label: "Single quotes ‘...’ (enquote)"
     replace: "‘…’"
-  - triggers: [ ":enquote" ]
+  - triggers: [ ":enquote", ":>>" ]
     label: "Guillemets inward »...« (enquote)"
     replace: "»$|$«"
-  - triggers: [ ":enquote" ]
+  - triggers: [ ":enquote", ":<<" ]
     label: "Guillemets outward «...» (enquote)"
     replace: "«$|$»"
   - triggers: [ ":enquote" ]

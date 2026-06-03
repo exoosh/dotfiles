@@ -1,35 +1,59 @@
 matches:
-  - trigger: ":shrug"
+  - triggers: [ ":shrug" ]
     label: "Shruggie ¯\\_(ツ)_/¯ [kaomoji]"
     replace: "¯\\_(ツ)_/¯"
-  - trigger: ":shrug"
+  - triggers: [ ":shrug", ":whatever" ]
     label: "Shruggie へ‿(ツ)‿ㄏ [kaomoji]"
     replace: "へ‿(ツ)‿ㄏ"
-  - trigger: ":shrug"
+  - triggers: [ ":shrug" ]
     label: "Shruggie ¯\\(ツ)/¯ [kaomoji]"
     replace: "¯\\(ツ)/¯"
-  - trigger: ":shrug"
+  - triggers: [ ":shrug" ]
+    label: "Shruggie 乁༼◕_◕༽ㄏ [kaomoji]"
+    replace: "乁༼◕_◕༽ㄏ"
+  - triggers: [ ":shrug" ]
+    label: "Shruggie └[・ ͟ʖ ・]┘ [kaomoji]"
+    replace: "└[・ ͟ʖ ・]┘"
+  - triggers: [ ":shrug" ]
+    label: "Shruggie ¯\\_༼ ºل͟º ༽_/¯ [kaomoji]"
+    replace: "¯\\_༼ ºل͟º ༽_/¯"
+  - triggers: [ ":shrug", ":sshrug" ]
+    label: "Sad shruggie ¯\\(⌣̯̀⌣́)/¯ [kaomoji]"
+    replace: "¯\\(⌣̯̀⌣́)/¯"
+  - triggers: [ ":shrug", ":dshrug" ]
+    label: "Disappointed shruggie ¯\\_(⊙︿⊙)_/¯ [kaomoji]"
+    replace: "¯\\_(⊙︿⊙)_/¯"
+  - triggers: [ ":shrug" ]
+    label: "Shruggie ¯\\_(-_-)_/¯ [kaomoji]"
+    replace: "¯\\_(-_-)_/¯"
+  - triggers: [ ":shrug" ]
+    label: "Shruggie ¯\\_(•_•)_/¯ [kaomoji]"
+    replace: "¯\\_(•_•)_/¯"
+  - triggers: [ ":shrug" ]
+    label: "Happy shruggie ╮(.❛ᴗ❛.)╭ [kaomoji]"
+    replace: "╮(.❛ᴗ❛.)╭"
+  - triggers: [ ":shrug" ]
     label: "Shruggie 乁(ツ)ㄏ [kaomoji]"
     replace: "乁(ツ)ㄏ"
-  - trigger: ":shrug"
+  - triggers: [ ":shrug" ]
     label: "Shruggie 乁₍ッ₎ㄏ [kaomoji]"
     replace: "乁₍ッ₎ㄏ"
-  - trigger: ":shrug"
+  - triggers: [ ":shrug" ]
     label: "Shruggie ʅ(ツ)ʃ [kaomoji]"
     replace: "ʅ(ツ)ʃ"
-  - trigger: ":shrug"
+  - triggers: [ ":shrug" ]
     label: "Shrugging gopher ʅ（´◔౪◔）ʃ [kaomoji]"
     replace: "ʅ（´◔౪◔）ʃ"
-  - trigger: ":shrug"
+  - triggers: [ ":shrug" ]
     label: "Angry shrug ¯\\(ಠ_ಠ)/¯ [kaomoji]"
     replace: "¯\\(ಠ_ಠ)/¯"
-  - trigger: ":cunning"
+  - triggers: [ ":cunning" ]
     label: "Cunning face (¬‿¬) [kaomoji]"
     replace: "(¬‿¬)"
-  - trigger: ":eager"
+  - triggers: [ ":eager" ]
     label: "Eager face ʘ‿ʘ [kaomoji]"
     replace: "ʘ‿ʘ"
-  - trigger: ":monocle"
+  - triggers: [ ":monocle" ]
     label: "Monocle ಠ_ರೃ [kaomoji]"
     replace: "ಠ_ರೃ"
   - triggers: [":disapprove", ":disapproval", ":angry"]
@@ -41,57 +65,123 @@ matches:
   - triggers: [":anger", ":angry"]
     label: "Angry face ಠ⌣ಠ (alternative) [kaomoji]"
     replace: "ಠ⌣ಠ"
-  - triggers: [":angry"]
-    label: "Angry face ¯\\(°益°)/¯ [kaomoji]"
+  - triggers: [":anger", ":angry"]
+    label: "Angry face ( •̀ ᴖ •́ ) (alternative) [kaomoji]"
+    replace: "( •̀ ᴖ •́ )"
+  - triggers: [":rage"]
+    label: "Raging face ¯\\(°益°)/¯ [kaomoji]"
     replace: "¯\\(°益°)/¯"
   - triggers: [":oops", ":ooops"]
     label: "Embarrassed face (⌒_⌒;) [kaomoji]"
     replace: "(⌒_⌒;)"
-  - trigger: ":wtf"
+  - triggers: [ ":wtf" ]
     label: "What the fudge ٩(ఠ益ఠ)۶ [kaomoji]"
     replace: "٩(ఠ益ఠ)۶"
-  - trigger: ":fight"
+  - triggers: [ ":fight" ]
     label: "Bring it on (ง ◉_◉)ง [kaomoji]"
     replace: "(ง ◉_◉)ง"
-  - trigger: ":mischief"
+  - triggers: [ ":mischief" ]
     label: "Mischievous face ಠᴗಠ [kaomoji]"
     replace: "ಠᴗಠ"
-  - trigger: ":unamused"
+  - triggers: [ ":unamused" ]
     label: "Unamused face ( ͡ಠ ʖ̯ ͡ಠ) [kaomoji]"
     replace: "( ͡ಠ ʖ̯ ͡ಠ)"
-  - trigger: ":amused"
+  - triggers: [ ":amused" ]
     label: "Amused face ( ͡ᵔ ͜ʖ ͡ᵔ) [kaomoji]"
     replace: "( ͡ᵔ ͜ʖ ͡ᵔ)"
-  - triggers: [":happy", ":joy"]
+  - triggers: [ ":happy", ":joy" ]
     label: "Happy/joyful face ٩(◕‿◕)۶ [kaomoji]"
     replace: "٩(◕‿◕)۶"
-  - triggers: [":dissatisfied", ":unhappy"]
+  - triggers: [ ":dissatisfied", ":unhappy" ]
     label: "Dissatisfied/unhappy (︶︹︺) [kaomoji]"
     replace: "(︶︹︺)"
-  - triggers: [":disappointed", ":disappointment"]
+  - triggers: [ ":disappointed", ":disappointment" ]
     label: "Disappointed (ʘ ʖ̯ ʘ) [kaomoji]"
     replace: "(ʘ ʖ̯ ʘ)"
-  - triggers: [":doubt"]
+  - triggers: [ ":disappointed", ":disappointment" ]
+    label: "Disappointed ˙𐃷˙ [kaomoji]"
+    replace: "˙𐃷˙"
+  - triggers: [ ":doubt" ]
     label: "Doubting (￢_￢) [kaomoji]"
     replace: "(￢_￢)"
-  - triggers: [":confused", ":confusion"]
+  - triggers: [ ":tears" ]
+    label: "Tearing up ಥ﹏ಥ [kaomoji]"
+    replace: "ಥ﹏ಥ"
+  - triggers: [ ":confused", ":confusion" ]
     label: "Confused ლ(ಠ_ಠ ლ) [kaomoji]"
     replace: "ლ(ಠ_ಠ ლ)"
-  - triggers: [":surprised", ":wow"]
+  - triggers: [ ":surprised", ":wow" ]
     label: "Surprised w(°ｏ°)w [kaomoji]"
     replace: "w(°ｏ°)w"
-  - triggers: [":what", ":uhm"]
+  - triggers: [ ":uhm" ]
     label: "Uhm ( ͠° ͟ʖ ͡°) [kaomoji]"
     replace: "( ͠° ͟ʖ ͡°)"
-  - trigger: ":devastated"
+  - triggers: [ ":uhm" ]
+    label: "Uhm (⚆ _ ⚆) [kaomoji]"
+    replace: "(⚆ _ ⚆)"
+  - triggers: [ ":devastated" ]
     label: "Devastated ( ಥ ʖ̯ ಥ) [kaomoji]"
     replace: "( ಥ ʖ̯ ಥ)"
-  - trigger: ":stars"
+  - triggers: [ ":stars" ]
     label: "Stars ₊˚⊹⋆˙˚˖ ࣪☆.°* [kaomoji]"
     replace: "₊˚⊹⋆˙˚˖ ࣪☆.°*"
-  - triggers: [":bow", ":respect"]
+  - triggers: [ ":bow", ":respect" ]
     label: "Bowing/respect (づ ᴗ _ᴗ)づ [kaomoji]"
     replace: "(づ ᴗ _ᴗ)づ"
-  - triggers: [":desk"]
+  - triggers: [ ":desk" ]
     label: "Throwing desk (╯°□°）╯︵ ┻━┻ [kaomoji]"
     replace: "(╯°□°）╯︵ ┻━┻"
+  - triggers: [ ":table" ]
+    label: "Throwing table (╯ಠ_ಠ）╯︵ ┳━┳ [kaomoji]"
+    replace: "(╯ಠ_ಠ）╯︵ ┳━┳"
+  - triggers: [ ":bear" ]
+    label: "Bear [kaomoji]"
+    replace: "ʕ•ᴥ•ʔ"
+  - triggers: [ ":worried" ]
+    label: "Worried look (⚆_⚆) [kaomoji]"
+    replace: "(⚆_⚆)"
+  - triggers: [ ":look" ]
+    label: "Look ( ⊙ _ ⊙ ) [kaomoji]"
+    replace: "( ⊙ _ ⊙ )"
+  - triggers: [ "(:" ]
+    label: "Smile ˙ᵕ˙ [kaomoji]"
+    replace: "˙ᵕ˙"
+  - triggers: [ ":cool" ]
+    label: "Cool (⌐■_■) [kaomoji]"
+    replace: "(⌐■_■)"
+  - triggers: [ ":hrm" ]
+    label: "Hrm ಠ~ಠ [kaomoji]"
+    replace: "ಠ~ಠ"
+  - triggers: [ ":rly" ]
+    label: "Oh Really? ఠ_ఠ [kaomoji]"
+    replace: "ఠ_ఠ"
+  - triggers: [ ":sad" ]
+    label: "Sad (͡๏̯͡๏) [kaomoji]"
+    replace: "(͡๏̯͡๏)"
+  - triggers: [ ":gasp" ]
+    label: "Gasp ⊙▂⊙ [kaomoji]"
+    replace: "⊙▂⊙"
+  - triggers: [ ":effyou" ]
+    label: "F... you ╭∩╮（︶︿︶）╭∩╮ [kaomoji]"
+    replace: "╭∩╮（︶︿︶）╭∩╮"
+  - triggers: [ ":nofacebook", ":~fb" ]
+    label: "No facebook (╯ಠ_ಠ）╯︵ ʞooqǝɔɐɟ [kaomoji]"
+    replace: "(╯ಠ_ಠ）╯︵ ʞooqǝɔɐɟ"
+  - triggers: [ ":nogoogle", ":~gg" ]
+    label: "No google (╯ಠ_ಠ）╯︵ ǝʃƃoo⅁ [kaomoji]"
+    replace: "(╯ಠ_ಠ）╯︵ ǝʃƃooƃ"
+  - triggers: [ ":nollm", ":~llm" ]
+    label: "No LLM (╯ಠ_ಠ）╯︵ W⅂⅂ [kaomoji]"
+    replace: "(╯ಠ_ಠ）╯︵ W⅂⅂"
+  - triggers: [ ":nopilot", ":~cp" ]
+    label: "No copilot (╯ಠ_ಠ）╯︵ ʇol!doↃ [kaomoji]"
+    replace: "(╯ಠ_ಠ）╯︵ ʇol!doↃ"
+  - triggers: [ ":noclaude", ":~cc" ]
+    label: "No claude (╯ಠ_ಠ）╯︵ ǝpnɐlↃ [kaomoji]"
+    replace: "(╯ಠ_ಠ）╯︵ ǝpnɐlↃ"
+  - triggers: [ ":noai", ":~ai" ]
+    label: "No AI (╯ಠ_ಠ）╯︵ I∀ [kaomoji]"
+    replace: "(╯ಠ_ಠ）╯︵ I∀"
+  - triggers: [ ":noms", ":~ms" ]
+    label: "No MS (╯ಠ_ಠ）╯︵ ʇɟosoɹɔ!W [kaomoji]"
+    replace: "(╯ಠ_ಠ）╯︵ ʇɟosoɹɔ!W"
