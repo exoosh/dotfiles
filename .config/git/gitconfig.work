@@ -10,13 +10,21 @@
 	name = Oliver Schneider
 	signingkey = 059A24E2AC070F6F85EC4D7C96CE5F44D16CC915
 
-[url "ssh://git@github.com/exoosh/"]
-	pushInsteadOf = https://github.com/exoosh/
-
-[url "ssh://git@github.com/exocad/"]
-	pushInsteadOf = https://github.com/exocad/
-
 [url "ssh://git@github.emu/"]
 	insteadOf = git@github.emu:
 	pushInsteadOf = https://github.emu/
 
+[url "ssh://git@github.emu/align-exocad/"]
+	insteadOf = git@github.com:align-exocad/
+	insteadOf = ssh://git@github.com/align-exocad/
+	pushInsteadOf = https://github.com/align-exocad/
+
+[url "ssh://git@github.exo/exoosh/"]
+	insteadOf = git@github.com:exoosh/
+	insteadOf = ssh://git@github.com/exoosh/
+	pushInsteadOf = https://github.com/exoosh/
+
+[url "ssh://git@github.exo/exocad/"]
+	insteadOf = git@github.com:exocad/
+	insteadOf = ssh://git@github.com/exocad/
+	pushInsteadOf = https://github.com/exocad/
