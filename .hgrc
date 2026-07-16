@@ -24,7 +24,7 @@ color=
 extdiff=
 fetch=
 hgext.bookmarks=
-hggit=
+hggit=!
 largefiles = 
 mq=
 purge=
@@ -33,7 +33,7 @@ record=
 relink =
 schemes=
 shelve=
-topic=
+topic=!
 transplant=
 
 [tortoisehg]

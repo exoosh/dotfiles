@@ -1,0 +1,29 @@
+[core]
+	pager = delta --dark
+[interactive]
+	diffFilter = delta --dark --color-only
+[merge]
+	conflictstyle = diff3
+[delta]
+	features = unobtrusive-line-numbers
+	navigate = true
+	side-by-side = true
+	plus-style = syntax "#012800"
+	minus-style = normal "#340001"
+	syntax-theme = Monokai Extended
+	whitespace-error-style = 22 reverse
+	file-style = bold brightyellow
+	file-decoration-style = brightyellow ul
+	hunk-header-style = line-number syntax file
+	hunk-header-line-number-style = brightcyan
+	hunk-header-decoration-style = cyan ul
+	hunk-header-file-style = magenta
+[delta "unobtrusive-line-numbers"]
+	line-numbers = true
+	line-numbers-minus-style = "#444444"
+	line-numbers-zero-style = "#444444"
+	line-numbers-plus-style = "#444444"
+	line-numbers-left-format = "{nm:>4}┊"
+	line-numbers-right-format = "{np:>4}│"
+	line-numbers-left-style = cyan
+	line-numbers-right-style = cyan
