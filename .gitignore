@@ -1,0 +1,32 @@
+# Ignore everything at the top level by default ...
+/*
+
+# ... except the dotfiles/dirs this repo actually manages.
+!/.bash_profile
+!/.bashrc.d
+!/.cargo
+!/.common_profile
+!/.config
+!/.gitignore
+!/.gnupg
+!/.hgignore
+!/.hgrc
+!/.inputrc
+!/.local
+!/.multitailrc
+!/.ssh
+!/.tmux.conf
+!/.vim
+!/.vimrc
+!/.zshrc
+!/GNUmakefile
+!/Mercurial.ini
+!/README.rst
+!/add-desktop-file
+!/configure-gitconfig
+!/gnupg-keygen.sh
+!/hgrc.local
+!/install-dotfiles
+!/refresh-dotfiles
+!/termcolor
+!/thoroughly-clean

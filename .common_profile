@@ -36,7 +36,7 @@ function set_prompt_and_uid
 			declare -g PS1='${debian_chroot:+($debian_chroot)}\[\033[01;34m\]${SHLVL:+[$SHLVL] }\u@\h\[\033[00m\]:\[\033[01;32m\]\w\[\033[00m\]\$ '
 		fi
 	elif [[ -v ZSH_VERSION ]]; then
-		if [[ $EUID -eq 0 ]]; then
+		if (( EUID == 0 )); then
 			declare -g PROMPT='%B%F{red}[%L] %n%f%F{blue}@%m%f%b:%F{green}%2~%f%# '
 		else
 			declare -g PROMPT='%B%F{blue}[%L] %n@%m%f%b:%F{green}%2~%f%# '
@@ -65,7 +65,7 @@ function add_cargo_bin
 function set_remote_timeout
 {
 	# Superuser will get a timeout for the shell if it's a remote shell via SSH
-	if [[ -n "$SSH_TTY" && $EUID -eq 0 ]]; then
+	if [[ -n "$SSH_TTY" ]] && (( EUID == 0 )); then
 		export TMOUT=1800
 	fi
 }
@@ -78,7 +78,7 @@ function clean_path_var
 		return
 	fi
 
-	if [[ $EUID -eq 0 ]]; then
+	if (( EUID == 0 )); then
 		local NEWPATH='' LASTDIR='' dir
 		local -a PATH_DIRS
 		if [[ -v ZSH_VERSION ]]; then
@@ -210,7 +210,7 @@ function system_specific_aliases
 		for i in debfoster:/usr/bin/debfoster deborphan:/usr/bin/deborphan; do
 			__create_abs_alias ${i%%:*} "${i#*:}"
 		done
-		if [[ $EUID -ne 0 ]]; then
+		if (( EUID )); then
 			for i in apt-get:/usr/bin/apt-get \
 								aptitude:/usr/bin/aptitude \
 								apt-mark:/usr/bin/apt-mark \
@@ -230,14 +230,14 @@ function system_specific_aliases
 	if [[ -e "/etc/redhat-release" ]] || "${WHENCE_CMD[@]}" yum > /dev/null 2>&1; then
 		alias search='yum -C search'
 		alias show='yum -C info'
-		if [[ $EUID -ne 0 ]] && "${WHENCE_CMD[@]}" sudo > /dev/null 2>&1; then
+		if (( EUID )) && "${WHENCE_CMD[@]}" sudo > /dev/null 2>&1; then
 			alias upgrade='sudo yum update'
 		else
 			alias upgrade='yum update'
 		fi
 	fi
 	if [[ -e "/etc/redhat-release" ]]; then
-		if [[ $EUID -ne 0 ]]; then
+		if (( EUID )); then
 			for i in ifconfig:/sbin/ifconfig \
 								service:/sbin/service \
 								lsof:/usr/sbin/lsof \
@@ -254,7 +254,7 @@ function system_specific_aliases
 		alias apti='printf "You are not on Debian anymore\n"'
 		alias search='pacman -Ss'
 		alias show='pacman -Qi'
-		if [[ $EUID -ne 0 ]] && "${WHENCE_CMD[@]}" sudo > /dev/null 2>&1; then
+		if (( EUID )) && "${WHENCE_CMD[@]}" sudo > /dev/null 2>&1; then
 			alias upgrade='sudo pacman -Syu'
 			alias purge='sudo pacman -Rn'
 			alias autopurge='sudo pacman -Rns'
@@ -320,8 +320,10 @@ function tool_aliases_and_init
 		fi
 		try_source_completions zoxide init $SHELLKIND
 		try_source_completions rg --generate=complete-$SHELLKIND
-		try_source_completions rustup completions $SHELLKIND
-		try_source_completions rustup completions $SHELLKIND cargo
+		if (( EUID )); then
+			try_source_completions rustup completions $SHELLKIND
+			try_source_completions rustup completions $SHELLKIND cargo
+		fi
 		try_source_completions ast-grep completions $SHELLKIND
 		try_source_completions sk --shell=$SHELLKIND
 		try_source_completions uv generate-shell-completion $SHELLKIND
@@ -406,8 +408,8 @@ function convenience_aliases
 		alias SCP1-very-insecure='scp1 -o KexAlgorithms=+diffie-hellman-group1-sha1 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
 	fi
 	if "${WHENCE_CMD[@]}" vim > /dev/null 2>&1; then
-		if [[ -f "${BASHRCDIR:-$HOME}/.vimrc" ]]; then
-			local VIMRC="-u \"${BASHRCDIR:-$HOME}/.vimrc\""
+		if [[ -f "${SHELLRCDIR:-$HOME}/.vimrc" ]]; then
+			local VIMRC="-u \"${SHELLRCDIR:-$HOME}/.vimrc\""
 		fi
 		local VIM_P_FLAG=""
 		if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "cygwin" || -n "$COMSPEC" ]]; then
@@ -415,7 +417,7 @@ function convenience_aliases
 		elif "${WHENCE_CMD[@]}" grep > /dev/null 2>&1 && (command vim --help 2> /dev/null|grep -q '[[:space:]]*-p'); then
 			VIM_P_FLAG="-p "
 		fi
-		local VIM_CMD="env HOME=\"${BASHRCDIR:-$HOME}\" vim ${VIM_P_FLAG}-N -n -i NONE${VIMRC:+ $VIMRC}"
+		local VIM_CMD="env HOME=\"${SHELLRCDIR:-$HOME}\" vim ${VIM_P_FLAG}-N -n -i NONE${VIMRC:+ $VIMRC}"
 		alias vim="$VIM_CMD"
 		export EDITOR=$("${WHENCE_CMD[@]}" vim)
 		if [[ -t 1 ]] && "${WHENCE_CMD[@]}" git > /dev/null 2>&1; then
@@ -463,7 +465,7 @@ function convenience_aliases
 
 	if "${WHENCE_CMD[@]}" sudo > /dev/null 2>&1; then
 		# beroot so we feel at home when assuming super-user rights
-		if [[ $EUID -eq 0 ]]; then
+		if (( EUID == 0 )); then
 			if ! declare -pf beroot > /dev/null 2>&1; then
 				function beroot
 				{
@@ -474,8 +476,15 @@ function convenience_aliases
 			if ! declare -pf beroot > /dev/null 2>&1; then
 				function beroot
 				{
-					if (($EUID)); then
-						sudo -u root /usr/bin/env BASHRCDIR="$HOME" "$SHELL"
+					if (( EUID )); then
+						case "$SHELL" in
+							bash | */bash | bash-static | */bash-static )
+								sudo -u root /usr/bin/env SHELLRCDIR="${SHELLRCDIR:-$HOME}" "$SHELL" --rcfile "${SHELLRCDIR:-$HOME}/.bashrc"
+								;;
+							zsh | */zsh | zsh-static | */zsh-static )
+								sudo -u root /usr/bin/env SHELLRCDIR="${SHELLRCDIR:-$HOME}" ZDOTDIR="${SHELLRCDIR:-$HOME}" "$SHELL" -i
+								;;
+						esac
 					else
 						echo 'NOP'
 					fi
@@ -579,9 +588,9 @@ convenience_aliases
 load_ssh_agent
 
 if [[ -v BASH_VERSION ]]; then
-	# Check for BASHRCDIR variable ...
-	[[ -d "${BASHRCDIR:-$HOME}" ]] || BASHRCDIR="$HOME"
-	BASHRCDIR=${BASHRCDIR:-$HOME}
+	# Check for SHELLRCDIR variable ...
+	[[ -d "${SHELLRCDIR:-$HOME}" ]] || SHELLRCDIR="$HOME"
+	SHELLRCDIR=${SHELLRCDIR:-$HOME}
 
 	# Global Bash completion definitions
 	if [[ $- == *i* ]]; then
@@ -593,7 +602,7 @@ if [[ -v BASH_VERSION ]]; then
 	# Load additional settings
 	BASHHOST="${HOSTNAME%%.*}"
 	BASHZONE="${HOSTNAME//$BASHHOST/_}"
-	BASHSRCDIR="$BASHRCDIR/.bashrc.d"
+	BASHSRCDIR="$SHELLRCDIR/.bashrc.d"
 	if [[ -d "$BASHSRCDIR" ]]; then
 		for f in "$BASHSRCDIR"/*; do
 			[[ -f "$f" ]] && source "$f"

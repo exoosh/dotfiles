@@ -31,7 +31,7 @@ function refresh-dotfiles
 			WHENCE_CMD=(builtin whence -p)
 		fi
 	fi
-	local TGTDIR="${BASHRCDIR:-$HOME}"
+	local TGTDIR="${SHELLRCDIR:-$HOME}"
 	local MYBRCD="$TGTDIR/.dotfiles"
 	local UPSTREAM_BASE=/dev/null
 	[[ -n "$SUDO_USER" ]] && UPSTREAM_BASE=$(eval echo ~$SUDO_USER)

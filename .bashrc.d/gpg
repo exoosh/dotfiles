@@ -2,12 +2,12 @@
 
 # Populate the public trusted keys from the config in the key DB
 # (skipped on Windows: Kleopatra manages the keyring there)
-if [[ "$OSTYPE" != "msys" && "$OSTYPE" != "cygwin" && -z "$COMSPEC" ]] && [[ -z "$NO_PUBKEY_FETCH" ]] && [[ ! -e "$BASHRCDIR/.gnupg/.no-pubkey-fetch" ]]; then
-	if [[ -e "$BASHRCDIR/.gnupg/gpg.conf" ]]; then
-		chmod -c go= "$BASHRCDIR/.gnupg" "$BASHRCDIR/.gnupg/gpg.conf" 2> /dev/null || true
+if [[ "$OSTYPE" != "msys" && "$OSTYPE" != "cygwin" && -z "$COMSPEC" ]] && [[ -z "$NO_PUBKEY_FETCH" ]] && [[ ! -e "${SHELLRCDIR:-$HOME}/.gnupg/.no-pubkey-fetch" ]]; then
+	if [[ -e "${SHELLRCDIR:-$HOME}/.gnupg/gpg.conf" ]]; then
+		chmod -c go= "${SHELLRCDIR:-$HOME}/.gnupg" "${SHELLRCDIR:-$HOME}/.gnupg/gpg.conf" 2> /dev/null || true
 		if "${WHENCE_CMD[@]}" gpg > /dev/null 2>&1 && "${WHENCE_CMD[@]}" tr > /dev/null 2>&1 ; then
 			MISSING_KEYS=$(\
-				for i in $(awk '$1 ~ /^trusted-key$/ {print $2}' $BASHRCDIR/.gnupg/gpg.conf); do
+				for i in $(awk '$1 ~ /^trusted-key$/ {print $2}' ${SHELLRCDIR:-$HOME}/.gnupg/gpg.conf); do
 					if ! grep -q "$(echo "${i}"|tr a-z A-Z)" <(gpg -k --with-colons 2> /dev/null|awk -F : '$1 ~ /^pub$/ {print $5}'); then
 						echo $i
 					fi

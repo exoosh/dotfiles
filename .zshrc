@@ -3,10 +3,10 @@
 bindkey -v
 # End of lines configured by zsh-newuser-install
 # The following lines were added by compinstall
-zstyle :compinstall filename "$HOME/.zshrc"
+zstyle :compinstall filename "${SHELLRCDIR:-$HOME}/.zshrc"
 
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
-[[ -f "$HOME/.common_profile" ]] && source "$HOME/.common_profile"
-[[ -f "$HOME/.local/bin/env" ]] && source "$HOME/.local/bin/env"
+[[ -f "${SHELLRCDIR:-$HOME}/.common_profile" ]] && source "${SHELLRCDIR:-$HOME}/.common_profile"
+[[ -f "${SHELLRCDIR:-$HOME}/.local/bin/env" ]] && source "${SHELLRCDIR:-$HOME}/.local/bin/env"
