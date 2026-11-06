@@ -3,6 +3,9 @@
 # vim: set autoindent smartindent ts=4 sw=4 sts=4 noet filetype=sh:
 set -e
 
+# Preferred branch names, in priority order when multiple candidates exist.
+PREFERRED_BRANCHES=(main master default stable release develop)
+
 function git_reattach_impl
 {
 	if [[ ! -v WHENCE_CMD ]]; then
@@ -19,7 +22,7 @@ function git_reattach_impl
 		local cR="" cG="" cB="" cY="" cW="" cR_="" cG_="" cB_="" cY_="" cW_="" cZ=""
 		readonly cR cG cB cY cW cR_ cG_ cB_ cY_ cW_ cZ
 	fi
-	for tool in env git; do 
+	for tool in env git; do
 		if ! "${WHENCE_CMD[@]}" "$tool" > /dev/null 2>&1; then
 			printf "${cR}ERROR:${cZ} ${cW}%s${cZ} does not seem to be installed.\n" "$tool"
 			return 1
@@ -50,22 +53,24 @@ function git_reattach_impl
 			fi
 			return 0
 		fi
-		for bname in "${CANDIDATE_BRANCHES[@]}"; do
-			case "$bname" in
-				master | main | default | stable | release | */master | */main | */default | */stable | */release)
-					printf -- "Picking preferred branch name and switching to ${cW}%s${cZ}\n" "$bname"
-					( set -x; ${DRY:+"echo"} env LANG=C LC_ALL=C git switch "$bname" )
-					break
-					;;
-				*)
-					printf -- "${cY}WARNING:${cZ} cannot reasonably decide which branch to switch to. Candidates:\n"
-					for b in "${CANDIDATE_BRANCHES[@]}"; do
-						printf -- "    * ${cW}%s${cZ}\n" "$b"
-					done
-					break
-					;;
-			esac
+		local preferred_branch selected_branch=""
+		for preferred_branch in "${PREFERRED_BRANCHES[@]}"; do
+			for bname in "${CANDIDATE_BRANCHES[@]}"; do
+				if [[ "$bname" == "$preferred_branch" || "$bname" == */"$preferred_branch" ]]; then
+					selected_branch="$bname"
+					break 2
+				fi
+			done
 		done
+		if [[ -n "$selected_branch" ]]; then
+			printf -- "Picking preferred branch name and switching to ${cW}%s${cZ}\n" "$selected_branch"
+			( set -x; ${DRY:+"echo"} env LANG=C LC_ALL=C git switch "$selected_branch" )
+		else
+			printf -- "${cY}WARNING:${cZ} cannot reasonably decide which branch to switch to. Candidates:\n"
+			for bname in "${CANDIDATE_BRANCHES[@]}"; do
+				printf -- "    * ${cW}%s${cZ}\n" "$bname"
+			done
+		fi
 	fi
 }
 
