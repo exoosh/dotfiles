@@ -1,7 +1,7 @@
 [user]
-	email = oliver@assarbad.net
+	email = oschneider@exocad.com
 	name = Oliver Schneider
-	signingkey = 38B55EBAA470C0F7094281B8C779D8290E88590F
+	signingkey = 059A24E2AC070F6F85EC4D7C96CE5F44D16CC915
 
 # Commands and operations
 [advice]
@@ -115,5 +115,6 @@
 [include]
 	path = ~/.config/git/gitconfig.aliases
 	path = ~/.config/git/gitconfig.difftastic
+	path = ~/.config/git/gitconfig.work
 	path = ~/.config/git/gitconfig.LOCAL
 	path = ~/.config/git/gitconfig.USER

@@ -4,7 +4,7 @@
 set -e
 
 # Preferred branch names, in priority order when multiple candidates exist.
-PREFERRED_BRANCHES=(main master default stable release develop)
+PREFERRED_BRANCHES=(exocad/main main master default stable release develop)
 
 function git_reattach_impl
 {

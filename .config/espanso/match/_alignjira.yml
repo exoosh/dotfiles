@@ -1,0 +1,40 @@
+matches:
+  - trigger: ":tt"
+    label: "[Jira] \\{\\{monospaced\\}\\}"
+    replace: "\\{\\{$|$\\}\\}"
+  - trigger: ":pre"
+    label: "[Jira] preformatted block"
+    replace: |
+      {noformat}
+      $|$
+      {noformat}
+  - triggers: [":c++", ":cpp"]
+    label: "[Jira] C++ code block"
+    replace: |
+      {code:cpp}
+      $|$
+      {code}
+  - trigger: ":shell"
+    label: "[Jira] Generic shell code block"
+    replace: |
+      {code:sh}
+      $|$
+      {code}
+  - trigger: ":bash"
+    label: "[Jira] Bash code block"
+    replace: |
+      {code:bash}
+      $|$
+      {code}
+  - trigger: ":code"
+    label: "[Jira] Generic code block"
+    replace: |
+      {code}
+      $|$
+      {code}
+  - trigger: ":quote"
+    label: "[Jira] block quote"
+    replace: |
+      {quote}
+      $|$
+      {quote}
