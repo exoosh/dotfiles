@@ -57,7 +57,7 @@
 	smurr = !git smur --remote
 	spush = push --signed
 	squash = !echo 'Did you mean rebase?'
-	srebase = rebase --exec 'git recommit -S'
+	srebase = rebase --exec 'git commit --amend --no-edit -S'
 	s = status -uno
 	st = !git status
 	stat = !git status
